@@ -1,44 +1,90 @@
-# Capacitated Vehicle Routing Problem (CVRP) - Zomato Delivery Optimization
+# Urban Food Delivery Optimization: Capacitated Vehicle Routing Problem (CVRP)
 
-This repository contains the optimization pipeline for solving a real-world Capacitated Vehicle Routing Problem (CVRP) applied to food delivery logistics. This project is submitted as the programming assignment for the Optimization Methods module. 
+**Course:** Optimization Methods (MSc in Artificial Intelligence)  
+**Repository:** `https://github.com/Dasaru-t/OM-Optimization-Assignment`  
 
-## Problem Context
-Efficient delivery routing is a critical operational challenge in urban logistics. This project models a delivery network where a central depot (restaurant) must dispatch drivers to fulfill multiple customer orders without exceeding vehicle carrying capacities. The objective is to minimize the total travel distance, thereby reducing operational costs and delivery times[cite: 21].
+## Team Members & Individual Contributions
+* **Member 1 — Dasaru Thamaranga Sellapperuma Arachchi:** Problem selection & CVRP modeling, Zomato dataset staging, deterministic `hashlib.md5` geocoding & Haversine distance matrix, exact two-index Miller-Tucker-Zemlin (MTZ) Integer Linear Program (PuLP/CBC) with fleet-size lower-bound valid inequality, and Population Metaheuristic via DEAP Genetic Algorithm (`eaSimple`).
+* **Member 2 — Kosala:** Constructive Clarke-Wright Savings heuristic, Trajectory Metaheuristic via Simulated Annealing with 10-nearest-neighbor granular move operators, independent solution feasibility verifier, 175-run scalability & robustness study ($n = 8 \dots 100$ across 10 seeds), Mann-Whitney U statistical testing, and result visualizations.
 
-## Dataset
-Data is utilized exclusively to instantiate and validate the optimization model, rather than for predictive model training[cite: 21]. 
-* **Source:** Zomato Food Delivery Insight Data (Kaggle)[cite: 23].
-* **Usage:** Latitude and longitude coordinates of restaurants and delivery locations are extracted to compute a real-world geographic distance matrix[cite: 23]. 
-* **Scope:** The dataset is filtered to specific city zones to test small-scale exact solutions and large-scale heuristic scalability[cite: 23].
+*(See [`CONTRIBUTIONS.md`](./CONTRIBUTIONS.md) for the detailed rubric-aligned breakdown.)*
 
-## Optimization Methods
-To evaluate performance trade-offs, this project implements two distinct mathematical approaches[cite: 21]:
+---
 
-1. **Exact Method (Integer Linear Programming):** 
-   * Formulated using `PuLP` / `OR-Tools`[cite: 21].
-   * Solves small subsets (e.g., 10-15 nodes) to find the guaranteed mathematical optimum[cite: 23]. 
-   * Strict constraints include vehicle capacity limits, visiting each node exactly once, and sub-tour elimination[cite: 21].
-2. **Heuristic Method (Genetic Algorithm):** 
-   * Implemented using `DEAP` / `PyGAD`[cite: 21].
-   * Evaluated on larger networks (50+ nodes) where exact methods scale exponentially, providing a near-optimal solution in a fraction of the runtime[cite: 21, 23].
+## 1. Problem Overview & Dataset Instantiation
 
-## Comparative Evaluation
-The two implementations are benchmarked against each other based on:
-* **Solution Quality:** The heuristic's percentage gap from the exact method's known optimum on small subsets[cite: 21, 23].
-* **Runtime & Scalability:** Computational performance as the number of delivery nodes increases[cite: 21, 23].
-* **Feasibility:** Constraint satisfaction in real-world staging constraints[cite: 21].
+Last-mile food delivery requires dispatching a fleet of delivery riders with finite thermal-box capacity from a central restaurant hub to a set of customer locations while minimizing total travel distance. We formulate this as a symmetric **Capacitated Vehicle Routing Problem (CVRP)** instantiated from real-world Zomato food delivery tables (`restaurants.csv`, `customers.csv`, `orders.csv`):
 
-## Repository Structure
+* **Depot ($0$):** Highest-volume active restaurant (`Classic Cafe (Desserts)`, ID `106`) located at `(13.142509, 80.278896)`.
+* **Customer Nodes ($V' = \{1, \dots, n\}$):** 337 unique customer nodes filtered from non-cancelled orders, scaled across instance sizes $n \in \{8, 10, 12, 15, 20, 30, 50, 100\}$.
+* **Customer Demand ($d_i$):** Derived from order bill totals as $\max(1, \text{round}(\text{total\_amount} / 100))$ (mean: `24.8`, min: `1`, max: `50` units).
+* **Vehicle Capacity ($Q$):** Fixed at `120` demand units per delivery rider.
+* **Reproducible Spatial Coordinates & Distances ($c_{ij}$):** Synthetic address strings are deterministically mapped around central Chennai (`13.0827, 80.2707`) using an MD5 digest seed (`hashlib.md5`) so coordinates and great-circle **Haversine distances (km)** are 100% identical across machines and runs.
+
+---
+
+## 2. Mathematical Formulation (Strengthened Two-Index MTZ ILP)
+
+Let $V = \{0, 1, \dots, n\}$ be the node set and $x_{ij} \in \{0,1\}$ be the binary decision variable equal to $1$ if a vehicle travels directly from node $i$ to node $j$ ($i \ne j$). Let $u_i \in [d_i, Q]$ be the continuous cumulative load variable upon visiting customer $i \in V'$.
+
+$$\min \sum_{i \in V} \sum_{j \in V, j \ne i} c_{ij} x_{ij}$$
+
+**Subject to:**
+1. **Customer Degree Constraints:** $\sum_{i \in V, i \ne j} x_{ij} = 1$ and $\sum_{k \in V, k \ne j} x_{jk} = 1 \quad \forall j \in V'$
+2. **Depot Flow & Fleet Limit:** $\sum_{j \in V'} x_{0j} = \sum_{i \in V'} x_{i0} \le K$, where $K = K_{\min} + 1$ and $K_{\min} = \lceil \sum_{i \in V'} d_i / Q \rceil$
+3. **Strengthened Fleet Lower-Bound Cut:** $\sum_{j \in V'} x_{0j} \ge \left\lceil \frac{\sum_{i \in V'} d_i}{Q} \right\rceil$ *(Tightens the LP relaxation, reducing the $n=15$ solve time from timing out at 300 s with a 28.1% gap to proving global optimality in 175.97 s)*
+4. **MTZ Subtour & Capacity Constraints:** $u_i - u_j + Q x_{ij} \le Q - d_j \quad \forall i, j \in V', i \ne j$, with $d_i \le u_i \le Q$
+
+---
+
+## 3. Implemented Optimization Approaches
+
+1. **Exact Method — Strengthened MTZ ILP (`PuLP` + COIN-OR `CBC`):**
+   * Solved with a 300 s budget for $n \le 30$. Verifies true optimality via `model.sol_status == pulp.LpSolutionOptimal` and parses CBC solver logs (`results/cbc_n*.log`) to report certified dual lower bounds and MIP gaps.
+2. **Metaheuristic 1 — Population-Based Genetic Algorithm (`DEAP`):**
+   * Giant-tour permutation chromosome decoded via greedy sequential capacity splitting (`ga_decode`). Uses Tournament Selection ($k=3$), Ordered Crossover (`cxOrdered`, $p_c=0.8$), Shuffle-Index Mutation ($p_m=0.2$, `indpb=0.05`), population = 200, generations = 500, and `HallOfFame(1)`.
+3. **Constructive Heuristic — Clarke-Wright Parallel Savings (`CW`):**
+   * Deterministic $O(n^2 \log n)$ baseline that sorts pairwise merge savings $s_{ij} = c_{0i} + c_{0j} - c_{ij}$ and greedily merges route endpoints subject to capacity $Q$.
+4. **Metaheuristic 2 — Trajectory-Based Simulated Annealing (`CW + SA`):**
+   * Warm-started from Clarke-Wright routes. Applies four local search operators (**Relocate**, **Swap**, inter-route **2-opt\***, intra-route **2-opt**) restricted to a **10-nearest-neighbor granular candidate list** (`k_near=10`) with auto-calibrated initial temperature ($p_{\text{accept},0} = 0.3$) and geometric cooling over $\max(100,000,\; 5,000n)$ iterations.
+
+Every solution generated by every method is verified by an independent feasibility checker (`check_solution`) asserting exact customer coverage and vehicle capacity compliance.
+
+---
+
+## 4. Key Experimental Results ($n = 8$ to $100$)
+
+*Stochastic methods (`GA` and `CW + SA`) are evaluated over **10 independent random seeds** per instance size.*
+
+| Customers ($n$) | Min Fleet ($K_{\min}$) | ILP (MTZ + Cut) Distance & Status | ILP Lower Bound (MIP Gap) | Clarke-Wright Distance (Time) | GA (Member 1) Mean ± Std (Time) | CW + SA (Member 2) Mean ± Std (Time) | Mann-Whitney $p$-value (SA vs GA) |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **8** | 2 | **73.74 km** (Optimal, 0.58 s) | 73.74 km (0.00%) | **73.74 km** (0.00 s) | 74.32 ± 1.10 km (1.58 s) | **73.74 ± 0.00 km** (0.30 s) | 0.0776 |
+| **10** | 3 | **86.75 km** (Optimal, 0.98 s) | 86.75 km (0.00%) | 91.11 km (0.00 s) | 87.08 ± 0.47 km (1.77 s) | **86.75 ± 0.00 km** (0.33 s) | 0.9376 |
+| **12** | 3 | **92.59 km** (Optimal, 3.13 s) | 92.59 km (0.00%) | 93.27 km (0.00 s) | 93.25 ± 0.79 km (1.88 s) | **92.59 ± 0.00 km** (0.34 s) | **0.0111\*** |
+| **15** | 4 | **104.22 km** (Optimal, 175.97 s) | 104.22 km (0.00%) | 108.05 km (0.00 s) | 108.85 ± 2.30 km (2.03 s) | **106.02 ± 1.93 km** (0.30 s) | **0.0086\*** |
+| **20** | 5 | 128.24 km (Time limit, 300.14 s) | 90.45 km (29.46%) | **118.22 km** (0.00 s) | 128.00 ± 6.48 km (2.39 s) | **118.22 ± 0.00 km** (0.33 s) | **0.0001\*** |
+| **30** | 6 | 214.37 km (Time limit, 299.33 s) | 102.14 km (52.36%) | 177.05 km (0.00 s) | 175.34 ± 4.84 km (3.07 s) | **168.62 ± 3.19 km** (0.45 s) | **0.0109\*** |
+| **50** | 11 | *Not attempted ($>2,500$ binaries)* | — | 277.88 km (0.00 s) | 345.70 ± 19.87 km (4.46 s) | **270.00 ± 1.98 km** (0.73 s) | **0.0002\*** |
+| **100** | 21 | *Not attempted* | — | 518.80 km (0.00 s) | 798.60 ± 20.11 km (7.92 s) | **506.60 ± 2.98 km** (1.48 s) | **0.0002\*** |
+
+---
+
+## 5. Repository Structure
+
 ```text
 OM-Optimization-Assignment/
-│
-├── data/                  # Raw and processed Zomato datasets
-├── notebooks/             # Jupyter notebooks for data staging, ILP, and GA implementation
-├── src/                   # Python scripts for distance matrix calculations and algorithms
-├── outputs/               # Generated route maps, performance plots, and logs
-├── members.txt            # Student IDs and contribution breakdown
-├── submission.txt         # Links to Kaggle dataset, GitHub repo, and YouTube presentation
-├── report.pdf             # Final mathematical formulation and evaluation discussion
-├── code_appendix.txt      # Plain text export of core algorithm code
-├── requirements.txt       # Python dependencies (pulp, deap, folium, etc.)
-└── README.md              # Project overview and instructions
+├── CVRP_Food_Delivery_Optimization.ipynb           # Phase 1 Notebook: Baseline CVRP, MTZ ILP & DEAP GA (Member 1)
+├── CVRP_Food_Delivery_Optimization_executed.ipynb  # Master Executed Notebook: Strengthened ILP, CW+SA & Scalability Study
+├── CONTRIBUTIONS.md                                # Detailed individual contribution & rubric mapping
+├── README.md                                       # Project documentation & experimental summary
+├── restaurants.csv                                 # Zomato restaurant dataset (Depot source)
+├── customers.csv                                   # Customer profiles & location strings
+├── orders.csv                                      # Order transactions & demand source
+└── results/                                        # Generated CSV logs & high-resolution report figures
+    ├── all_runs.csv                                # Raw metrics for all 175 optimization runs
+    ├── summary.csv                                 # Aggregated mean/std/gap metrics by instance size
+    ├── ga_vs_sa_test.csv                           # Mann-Whitney U statistical test results
+    ├── scalability.png                             # Log-runtime & solution quality scaling plots
+    ├── robustness_boxplots.png                     # 10-seed distance distributions at n=50 and n=100
+    ├── convergence.png                             # Iteration/generation convergence trajectories
+    └── routes_n50.png                              # Spatial route topology comparison at n=50
