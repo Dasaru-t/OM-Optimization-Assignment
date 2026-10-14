@@ -4,7 +4,7 @@
 **Repository:** `https://github.com/Dasaru-t/OM-Optimization-Assignment`  
 
 ## Team Members & Individual Contributions
-* **Member 1 — Dasaru Thamaranga Sellapperuma Arachchi:** Problem selection & CVRP modeling, Zomato dataset staging, deterministic `hashlib.md5` geocoding & Haversine distance matrix, exact two-index Miller-Tucker-Zemlin (MTZ) Integer Linear Program (PuLP/CBC) with fleet-size lower-bound valid inequality, and Population Metaheuristic via DEAP Genetic Algorithm (`eaSimple`).
+* **Member 1 — Dasaru:** Problem selection & CVRP modeling, Zomato dataset staging, deterministic `hashlib.md5` geocoding & Haversine distance matrix, exact two-index Miller-Tucker-Zemlin (MTZ) Integer Linear Program (PuLP/CBC) with fleet-size lower-bound valid inequality, and Population Metaheuristic via DEAP Genetic Algorithm (`eaSimple`).
 * **Member 2 — Kosala:** Constructive Clarke-Wright Savings heuristic, Trajectory Metaheuristic via Simulated Annealing with 10-nearest-neighbor granular move operators, independent solution feasibility verifier, 175-run scalability & robustness study ($n = 8 \dots 100$ across 10 seeds), Mann-Whitney U statistical testing, and result visualizations.
 
 *(See [`CONTRIBUTIONS.md`](./CONTRIBUTIONS.md) for the detailed rubric-aligned breakdown.)*
