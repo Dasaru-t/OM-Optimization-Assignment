@@ -1,0 +1,171 @@
+Welcome to the CBC MILP Solver 
+Version: 2.10.3 
+Build Date: Dec 15 2019 
+
+command line - /usr/local/lib/python3.13/dist-packages/pulp/solverdir/cbc/linux/64/cbc /tmp/26b0f3ab87804ea78a1e8f47240a9d1b-pulp.mps -sec 300 -timeMode elapsed -branch -printingOptions all -solution /tmp/26b0f3ab87804ea78a1e8f47240a9d1b-pulp.sol (default strategy 1)
+At line 2 NAME          MODEL
+At line 3 ROWS
+At line 938 COLUMNS
+At line 8259 RHS
+At line 9193 BOUNDS
+At line 10184 ENDATA
+Problem MODEL has 933 rows, 960 columns and 4530 elements
+Coin0008I MODEL read with 0 errors
+seconds was changed from 1e+100 to 300
+Option for timeMode changed from cpu to elapsed
+Continuous objective value is 91.2135 - 0.00 seconds
+Cgl0003I 0 fixed, 0 tightened bounds, 870 strengthened rows, 0 substitutions
+Cgl0003I 0 fixed, 0 tightened bounds, 870 strengthened rows, 0 substitutions
+Cgl0003I 0 fixed, 0 tightened bounds, 870 strengthened rows, 0 substitutions
+Cgl0003I 0 fixed, 0 tightened bounds, 870 strengthened rows, 0 substitutions
+Cgl0003I 0 fixed, 0 tightened bounds, 870 strengthened rows, 0 substitutions
+Cgl0003I 0 fixed, 0 tightened bounds, 870 strengthened rows, 0 substitutions
+Cgl0003I 0 fixed, 0 tightened bounds, 870 strengthened rows, 0 substitutions
+Cgl0003I 0 fixed, 0 tightened bounds, 870 strengthened rows, 0 substitutions
+Cgl0003I 0 fixed, 0 tightened bounds, 870 strengthened rows, 0 substitutions
+Cgl0004I processed model has 932 rows, 960 columns (930 integer (930 of which binary)) and 12330 elements
+Cutoff increment increased from 1e-05 to 0.000999
+Cbc0038I Initial state - 60 integers unsatisfied sum - 16.3307
+Cbc0038I Pass   1: suminf.    8.89167 (37) obj. 134.531 iterations 347
+Cbc0038I Pass   2: suminf.    8.45000 (42) obj. 136.27 iterations 92
+Cbc0038I Pass   3: suminf.    7.85111 (46) obj. 152.918 iterations 298
+Cbc0038I Pass   4: suminf.    7.30121 (44) obj. 153.699 iterations 76
+Cbc0038I Pass   5: suminf.    7.48611 (36) obj. 168.427 iterations 259
+Cbc0038I Pass   6: suminf.    7.01204 (40) obj. 170.247 iterations 84
+Cbc0038I Pass   7: suminf.    7.40057 (34) obj. 177.551 iterations 126
+Cbc0038I Pass   8: suminf.    6.75962 (45) obj. 181.348 iterations 114
+Cbc0038I Pass   9: suminf.    8.43038 (36) obj. 188.63 iterations 252
+Cbc0038I Pass  10: suminf.    7.43333 (44) obj. 185.203 iterations 109
+Cbc0038I Pass  11: suminf.    7.43333 (44) obj. 187.154 iterations 11
+Cbc0038I Pass  12: suminf.    7.92163 (32) obj. 185.893 iterations 225
+Cbc0038I Pass  13: suminf.    6.81877 (41) obj. 184.397 iterations 109
+Cbc0038I Pass  14: suminf.    7.39735 (33) obj. 181.288 iterations 180
+Cbc0038I Pass  15: suminf.    6.55764 (37) obj. 173.303 iterations 92
+Cbc0038I Pass  16: suminf.    7.23208 (33) obj. 177.294 iterations 203
+Cbc0038I Pass  17: suminf.    6.30535 (38) obj. 181.439 iterations 138
+Cbc0038I Pass  18: suminf.    7.11718 (37) obj. 186.561 iterations 64
+Cbc0038I Pass  19: suminf.    7.42216 (32) obj. 332.496 iterations 345
+Cbc0038I Pass  20: suminf.    3.50000 (16) obj. 334.586 iterations 186
+Cbc0038I Pass  21: suminf.    4.45323 (16) obj. 327.213 iterations 138
+Cbc0038I Pass  22: suminf.    4.11111 (18) obj. 326.351 iterations 71
+Cbc0038I Pass  23: suminf.    3.70833 (16) obj. 328.266 iterations 32
+Cbc0038I Pass  24: suminf.    3.59593 (20) obj. 328.075 iterations 41
+Cbc0038I Pass  25: suminf.    4.10523 (20) obj. 324.629 iterations 227
+Cbc0038I Pass  26: suminf.    3.45088 (22) obj. 323.864 iterations 144
+Cbc0038I Pass  27: suminf.    3.01531 (22) obj. 321.71 iterations 116
+Cbc0038I Pass  28: suminf.    6.18333 (17) obj. 334.724 iterations 252
+Cbc0038I Pass  29: suminf.    3.86667 (19) obj. 337.623 iterations 164
+Cbc0038I Pass  30: suminf.    4.74062 (17) obj. 337.072 iterations 219
+Cbc0038I No solution found this major pass
+Cbc0038I Before mini branch and bound, 653 integers at bound fixed and 1 continuous
+Cbc0038I Full problem 932 rows 960 columns, reduced to 851 rows 298 columns - too large
+Cbc0038I Mini branch and bound did not improve solution (1.56 seconds)
+Cbc0038I Full problem 933 rows 960 columns, reduced to 933 rows 960 columns - too large
+Cbc0038I After 1.65 seconds - Feasibility pump exiting - took 0.43 seconds
+Cbc0031I 20 added rows had average density of 372.75
+Cbc0013I At root node, 20 cuts changed objective from 92.179776 to 97.051865 in 28 passes
+Cbc0014I Cut generator 0 (Probing) - 2 row cuts average 4.5 elements, 0 column cuts (0 active)  in 0.208 seconds - new frequency is -100
+Cbc0014I Cut generator 1 (Gomory) - 346 row cuts average 849.1 elements, 0 column cuts (0 active)  in 0.148 seconds - new frequency is -100
+Cbc0014I Cut generator 2 (Knapsack) - 3 row cuts average 2.0 elements, 0 column cuts (0 active)  in 0.025 seconds - new frequency is -100
+Cbc0014I Cut generator 3 (Clique) - 0 row cuts average 0.0 elements, 0 column cuts (0 active)  in 0.003 seconds - new frequency is -100
+Cbc0014I Cut generator 4 (MixedIntegerRounding2) - 198 row cuts average 19.3 elements, 0 column cuts (0 active)  in 0.083 seconds - new frequency is 1
+Cbc0014I Cut generator 5 (FlowCover) - 148 row cuts average 2.0 elements, 0 column cuts (0 active)  in 0.035 seconds - new frequency is 1
+Cbc0014I Cut generator 6 (TwoMirCuts) - 162 row cuts average 82.7 elements, 0 column cuts (0 active)  in 0.034 seconds - new frequency is 1
+Cbc0010I After 0 nodes, 1 on tree, 1e+50 best solution, best possible 97.051865 (4.09 seconds)
+Cbc0012I Integer solution of 238.066 found by rounding after 17083 iterations and 689 nodes (8.42 seconds)
+Cbc0038I Full problem 932 rows 960 columns, reduced to 392 rows 54 columns
+Cbc0038I Full problem 932 rows 960 columns, reduced to 348 rows 45 columns
+Cbc0010I After 1000 nodes, 205 on tree, 238.066 best solution, best possible 97.051865 (9.96 seconds)
+Cbc0038I Full problem 932 rows 960 columns, reduced to 569 rows 65 columns
+Cbc0038I Full problem 932 rows 960 columns, reduced to 614 rows 68 columns
+Cbc0038I Full problem 932 rows 960 columns, reduced to 588 rows 61 columns
+Cbc0038I Full problem 932 rows 960 columns, reduced to 599 rows 61 columns
+Cbc0038I Full problem 932 rows 960 columns, reduced to 617 rows 63 columns
+Cbc0038I Full problem 932 rows 960 columns, reduced to 541 rows 60 columns
+Cbc0010I After 2000 nodes, 387 on tree, 238.066 best solution, best possible 97.051865 (13.82 seconds)
+Cbc0038I Full problem 932 rows 960 columns, reduced to 595 rows 69 columns
+Cbc0038I Full problem 932 rows 960 columns, reduced to 527 rows 51 columns
+Cbc0004I Integer solution of 233.373 found after 57516 iterations and 2675 nodes (16.32 seconds)
+Cbc0038I Full problem 932 rows 960 columns, reduced to 567 rows 61 columns
+Cbc0010I After 3000 nodes, 484 on tree, 233.373 best solution, best possible 97.051865 (18.79 seconds)
+Cbc0038I Full problem 932 rows 960 columns, reduced to 687 rows 64 columns - 10 fixed gives 452, 30 - ok now
+Cbc0038I Full problem 932 rows 960 columns, reduced to 45 rows 24 columns
+Cbc0010I After 4000 nodes, 832 on tree, 233.373 best solution, best possible 97.051865 (25.88 seconds)
+Cbc0038I Full problem 932 rows 960 columns, reduced to 577 rows 59 columns
+Cbc0038I Full problem 932 rows 960 columns, reduced to 691 rows 70 columns - 7 fixed gives 554, 43 - ok now
+Cbc0038I Full problem 932 rows 960 columns, reduced to 203 rows 33 columns
+Cbc0010I After 5000 nodes, 1193 on tree, 233.373 best solution, best possible 97.051865 (32.47 seconds)
+Cbc0038I Full problem 932 rows 960 columns, reduced to 406 rows 53 columns
+Cbc0004I Integer solution of 221.331 found after 181318 iterations and 5955 nodes (38.22 seconds)
+Cbc0038I Full problem 932 rows 960 columns, reduced to 740 rows 84 columns - 6 fixed gives 602, 57 - ok now
+Cbc0038I Full problem 932 rows 960 columns, reduced to 391 rows 48 columns
+Cbc0010I After 6000 nodes, 1313 on tree, 221.331 best solution, best possible 97.051865 (38.73 seconds)
+Cbc0038I Full problem 932 rows 960 columns, reduced to 715 rows 73 columns - 6 fixed gives 647, 56 - ok now
+Cbc0038I Full problem 932 rows 960 columns, reduced to 337 rows 46 columns
+Cbc0010I After 7000 nodes, 1702 on tree, 221.331 best solution, best possible 97.051865 (47.85 seconds)
+Cbc0038I Full problem 932 rows 960 columns, reduced to 478 rows 55 columns
+Cbc0038I Full problem 932 rows 960 columns, reduced to 528 rows 57 columns
+Cbc0010I After 8000 nodes, 2091 on tree, 221.331 best solution, best possible 97.051865 (55.42 seconds)
+Cbc0010I After 9000 nodes, 2485 on tree, 221.331 best solution, best possible 97.051865 (61.83 seconds)
+Cbc0010I After 10000 nodes, 2654 on tree, 221.331 best solution, best possible 97.051865 (69.21 seconds)
+Cbc0038I Full problem 932 rows 960 columns, reduced to 514 rows 74 columns
+Cbc0010I After 11000 nodes, 2644 on tree, 221.331 best solution, best possible 97.051865 (75.95 seconds)
+Cbc0010I After 12000 nodes, 3132 on tree, 221.331 best solution, best possible 99.448755 (94.96 seconds)
+Cbc0010I After 13000 nodes, 3602 on tree, 221.331 best solution, best possible 100.04162 (105.54 seconds)
+Cbc0010I After 14000 nodes, 3751 on tree, 221.331 best solution, best possible 100.04162 (114.74 seconds)
+Cbc0038I Full problem 932 rows 960 columns, reduced to 841 rows 97 columns - 13 fixed gives 523, 44 - ok now
+Cbc0038I Full problem 932 rows 960 columns, reduced to 252 rows 34 columns
+Cbc0010I After 15000 nodes, 4222 on tree, 221.331 best solution, best possible 100.40476 (124.82 seconds)
+Cbc0010I After 16000 nodes, 4689 on tree, 221.331 best solution, best possible 100.63793 (134.64 seconds)
+Cbc0010I After 17000 nodes, 5156 on tree, 221.331 best solution, best possible 100.85026 (144.36 seconds)
+Cbc0038I Full problem 932 rows 960 columns, reduced to 474 rows 55 columns
+Cbc0010I After 18000 nodes, 5164 on tree, 221.331 best solution, best possible 100.85026 (150.18 seconds)
+Cbc0010I After 19000 nodes, 5620 on tree, 221.331 best solution, best possible 101.04237 (160.68 seconds)
+Cbc0010I After 20000 nodes, 6084 on tree, 221.331 best solution, best possible 101.19923 (170.81 seconds)
+Cbc0010I After 21000 nodes, 6533 on tree, 221.331 best solution, best possible 101.36192 (179.78 seconds)
+Cbc0010I After 22000 nodes, 6639 on tree, 221.331 best solution, best possible 101.36192 (187.10 seconds)
+Cbc0010I After 23000 nodes, 7097 on tree, 221.331 best solution, best possible 101.50049 (196.35 seconds)
+Cbc0010I After 24000 nodes, 7565 on tree, 221.331 best solution, best possible 101.61838 (205.19 seconds)
+Cbc0010I After 25000 nodes, 8021 on tree, 221.331 best solution, best possible 101.71954 (214.12 seconds)
+Cbc0038I Full problem 932 rows 960 columns, reduced to 814 rows 80 columns - 13 fixed gives 509, 38 - ok now
+Cbc0038I Full problem 932 rows 960 columns, reduced to 208 rows 27 columns
+Cbc0010I After 26000 nodes, 8092 on tree, 221.331 best solution, best possible 101.71954 (222.70 seconds)
+Cbc0010I After 27000 nodes, 8556 on tree, 221.331 best solution, best possible 101.81213 (231.56 seconds)
+Cbc0010I After 28000 nodes, 9015 on tree, 221.331 best solution, best possible 101.89299 (240.27 seconds)
+Cbc0038I Full problem 932 rows 960 columns, reduced to 862 rows 72 columns - 13 fixed gives 597, 43 - ok now
+Cbc0038I Full problem 932 rows 960 columns, reduced to 136 rows 24 columns
+Cbc0010I After 29000 nodes, 9477 on tree, 221.331 best solution, best possible 101.97397 (248.65 seconds)
+Cbc0010I After 30000 nodes, 9605 on tree, 221.331 best solution, best possible 101.97397 (257.52 seconds)
+Cbc0010I After 31000 nodes, 10058 on tree, 221.331 best solution, best possible 102.04971 (266.28 seconds)
+Cbc0010I After 32000 nodes, 10450 on tree, 221.331 best solution, best possible 102.04971 (273.21 seconds)
+Cbc0038I Full problem 932 rows 960 columns, reduced to 470 rows 51 columns
+Cbc0010I After 33000 nodes, 10660 on tree, 221.331 best solution, best possible 102.04971 (278.01 seconds)
+Cbc0010I After 34000 nodes, 10847 on tree, 221.331 best solution, best possible 102.04971 (287.37 seconds)
+Cbc0010I After 35000 nodes, 11238 on tree, 221.331 best solution, best possible 102.04971 (294.33 seconds)
+Cbc0020I Exiting on maximum time
+Cbc0005I Partial search - best objective 221.331 (best possible 102.04971), took 1874758 iterations and 35619 nodes (299.27 seconds)
+Cbc0032I Strong branching done 39250 times (924722 iterations), fathomed 1399 nodes and fixed 5801 variables
+Cbc0035I Maximum depth 235, 60294 variables fixed on reduced cost
+Cuts at root node changed objective from 92.1798 to 97.0519
+Probing was tried 28 times and created 2 cuts of which 0 were active after adding rounds of cuts (0.208 seconds)
+Gomory was tried 28 times and created 346 cuts of which 0 were active after adding rounds of cuts (0.148 seconds)
+Knapsack was tried 28 times and created 3 cuts of which 0 were active after adding rounds of cuts (0.025 seconds)
+Clique was tried 28 times and created 0 cuts of which 0 were active after adding rounds of cuts (0.003 seconds)
+MixedIntegerRounding2 was tried 11616 times and created 37708 cuts of which 0 were active after adding rounds of cuts (12.373 seconds)
+FlowCover was tried 11616 times and created 22616 cuts of which 0 were active after adding rounds of cuts (10.983 seconds)
+TwoMirCuts was tried 11616 times and created 17880 cuts of which 0 were active after adding rounds of cuts (5.572 seconds)
+ZeroHalf was tried 1 times and created 0 cuts of which 0 were active after adding rounds of cuts (0.001 seconds)
+
+Result - Stopped on time limit
+
+Objective value:                221.33100000
+Lower bound:                    102.050
+Gap:                            1.17
+Enumerated nodes:               35619
+Total iterations:               1874758
+Time (CPU seconds):             294.83
+Time (Wallclock seconds):       299.33
+
+Option for printingOptions changed from normal to all
+Total time (CPU seconds):       294.83   (Wallclock seconds):       299.34
+
